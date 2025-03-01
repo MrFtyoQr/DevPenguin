@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokemon History</title>
+</head>
+<body>
+    <h1>Pokemon History</h1>
+    <ul id="history-list">
+        <!-- History data will be inserted here -->
+    </ul>
+    <script>
+        fetch('/api/history')
+            .then(response => response.json())
+            .then(data => {
+                const list = document.getElementById('history-list');
+                data.forEach(pokemon => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `${pokemon.name} - Height: ${pokemon.height}, Weight: ${pokemon.weight}`;
+                    list.appendChild(listItem);
+                });
+            });
+    </script>
+</body>
+</html>

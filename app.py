@@ -1,7 +1,7 @@
 from fastapi import FastAPI
-from api.routers1 import router
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 from api.pokemon_router import pokemon_router
-from api.routers import pokemon
 from dotenv import load_dotenv
 import os
 
@@ -9,6 +9,16 @@ import os
 load_dotenv()
 
 app = FastAPI()
-app.include_router(router, prefix="/api")
-app.include_router(pokemon_router, prefix="/pokemon")
-app.include_router(pokemon.router)
+app.include_router(pokemon_router, prefix="/api")
+
+# Serve static files and templates
+app.mount("/static", StaticFiles(directory="static"), name="static")
+templates = Jinja2Templates(directory="templates")
+
+@app.get("/")
+async def read_root():
+    return templates.TemplateResponse("index.html", {"request": {}})
+
+@app.get("/history")
+async def read_history():
+    return templates.TemplateResponse("history.html", {"request": {}})

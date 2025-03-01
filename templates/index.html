@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saved Pokemon</title>
+</head>
+<body>
+    <h1>Saved Pokemon</h1>
+    <ul id="pokemon-list">
+        <!-- Pokemon data will be inserted here -->
+    </ul>
+    <script>
+        fetch('/api/saved')
+            .then(response => response.json())
+            .then(data => {
+                const list = document.getElementById('pokemon-list');
+                data.forEach(pokemon => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `${pokemon.name} - Height: ${pokemon.height}, Weight: ${pokemon.weight}`;
+                    list.appendChild(listItem);
+                });
+            });
+    </script>
+</body>
+</html>
